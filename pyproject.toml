@@ -10,6 +10,8 @@ packages = [{include = "repl_nix_demo"}]
 python = "^3.10"
 flask = "^3.0.3"
 werkzeug = "^3.0.3"
+nltk = "^3.8.1"
+docx = "^0.2.4"
 
 
 [build-system]

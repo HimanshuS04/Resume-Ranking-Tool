@@ -17,9 +17,10 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 def home():
     return render_template('home.html')
 
-@app.route('/download_file/<filename>')
-def download_file(filename):
-    return "uploaded %s" %filename
+@app.route('/download_file')
+def download():
+    file=request.args.get('file')
+    return redirect(url_for('download_file', name=file))
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -39,11 +40,20 @@ def upload_file():
             flash('No selected file')
             return redirect(url_for('home'))
         if file and allowed_file(file.filename):
-            filename = file.filename
+            filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash('file uploaded')
             return redirect(url_for('home'))
+        else :
+            flash('Invalid file type')
+            return redirect(url_for('home'))
     return
+
+from flask import send_from_directory
+
+@app.route('/uploads/<name>')
+def download_file(name):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True)
