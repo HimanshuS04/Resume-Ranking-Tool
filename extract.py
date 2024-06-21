@@ -6,7 +6,8 @@ from nltk.corpus import stopwords
 from collections import Counter
 
 # Ensure you have the required nltk data
-
+nltk.download('stopwords')
+nltk.download('punkt')
 
 STOPWORDS = set(stopwords.words('english'))
 
@@ -148,18 +149,8 @@ def main(resume_folder, keywords, competencies):
         resume_texts.append(text)
 
     scores = rank_resumes(resume_texts, keywords, competencies)
-    ranked_resumes = sorted(zip(os.listdir(resume_folder), scores), key=lambda x: x[1], reverse=True)
-
-    for rank, (file_name, score) in enumerate(ranked_resumes, start=1):
-        print(f"Rank {rank}: {file_name} with score {score}")
-
-# Example usage
-
-  # Replace with the path to your resume folder
-text="Job Title: Software Developer Company: [Company Name] Location: [Specify Location, e.g., San Francisco, CA] Job Summary: We are seeking a talented Software Developer to join our dynamic team. As a Software Developer, you will be responsible for designing, developing, and implementing software solutions to address complex business issues. You will work closely with product managers and engineers to deliver high-quality code and contribute to the overall success of our projects. Key Responsibilities: Design, develop, and maintain software applications and solutions. Collaborate with cross-functional teams to define, design, and ship new features. Write clean, scalable, and maintainable code that meets coding standards. Conduct thorough testing and debugging to ensure software functionality and performance. Troubleshoot and resolve issues reported by users or team members. Stay updated with the latest technologies and industry trends in software development. Participate in code reviews and provide constructive feedback to peers. Required Qualifications: Bachelor’s degree in Computer Science, Engineering, or a related field. Proven experience as a Software Developer or Software Engineer. Strong proficiency in one or more programming languages such as Java, Python, C++, JavaScript, etc. Experience with software development methodologies (Agile, Scrum, etc.). Familiarity with relational databases and SQL. Ability to work independently and as part of a team in a fast-paced environment. Excellent problem-solving and analytical skills. Preferred Qualifications: Master’s degree in Computer Science, Engineering, or a related field. Experience with web development frameworks (e.g., Django, Spring, React, Angular). Knowledge of cloud computing platforms (AWS, Azure, Google Cloud). Familiarity with version control systems (Git, SVN). Experience in mobile application development (iOS, Android)."
+    ranked_resumes =  ranked_resumes = sorted(zip(os.listdir(resume_folder), scores), key=lambda x: x[1], reverse=True)
 
 
-if __name__ == "__main__":
-    resume_folder = 'uploads'
-    keywords = preprocess_text(text)  # Replace with your desired keywords
-    main(resume_folder, keywords, COMPETENCIES)
+    return ranked_resumes
+

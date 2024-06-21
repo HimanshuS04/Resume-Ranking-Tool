@@ -1,7 +1,7 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
-
+import extract as cs
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf'}
 
@@ -49,6 +49,18 @@ def upload_file():
             return redirect(url_for('home'))
     return
 
+
+@app.route('/result')
+def result():
+    des=request.args.get('des')
+    resume_folder = 'uploads'
+    keywords = cs.preprocess_text(des)
+    ranked_resumes=cs.main(resume_folder, keywords, cs.COMPETENCIES)
+    return render_template('results.html', ranked_resumes=ranked_resumes)
+
+    
+
+
 from flask import send_from_directory
 
 @app.route('/uploads/<name>')
@@ -57,3 +69,15 @@ def download_file(name):
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True)
+    
+
+
+
+
+# Example usage
+
+  # Replace with the path to your resume folder
+
+
+
+
