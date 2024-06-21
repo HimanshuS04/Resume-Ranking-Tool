@@ -1,0 +1,5 @@
+flask
+nltk
+pypdf2
+python-docx
+gunicorn
