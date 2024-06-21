@@ -57,11 +57,10 @@ def result():
         flash('Invalid Input')
         return redirect(url_for('home'))
     resume_folder = 'uploads'
-    keywords = cs.preprocess_text(des)
-    ranked_resumes=cs.main(resume_folder, keywords, cs.COMPETENCIES)
+    ranked_resumes=cs.main(resume_folder, des)
     return render_template('results.html', ranked_resumes=ranked_resumes)
 
-    
+
 
 
 from flask import send_from_directory
@@ -72,12 +71,3 @@ def download_file(name):
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True)
-    
-
-
-
-
-
-
-
-
