@@ -5,13 +5,108 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranked Resumes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .container:hover {
+            transform: scale(1.01);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .resume-name {
+            width: 50%;
+        }
+
+        .resume-score {
+            width: 20%;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .download-btn {
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #007bff;
+            padding: 5px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+            text-align: center;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .download-btn:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-    <h1>Ranked Resumes</h1>
-    <ul>
-        {% for resume, score in ranked_resumes %}
-        <li>{{ resume }} - Score: {{ score }}-</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Ranked Resumes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resume, score in ranked_resumes %}
+                <tr>
+                    <td class="resume-name">{{ resume.rsplit('.', 1)[0] }}</td>
+                    <td class="resume-score">{{ score }}</td>
+                    <td><a class="download-btn" href="{{ url_for('download_file', name=resume) }}">Download</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

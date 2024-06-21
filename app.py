@@ -37,12 +37,12 @@ def upload_file():
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
-            flash('No selected file')
+            flash('No File Selected')
             return redirect(url_for('home'))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash('file uploaded')
+            flash('File Uploaded')
             return redirect(url_for('home'))
         else :
             flash('Invalid file type')
@@ -53,6 +53,9 @@ def upload_file():
 @app.route('/result')
 def result():
     des=request.args.get('des')
+    if des== '':
+        flash('Invalid Input')
+        return redirect(url_for('home'))
     resume_folder = 'uploads'
     keywords = cs.preprocess_text(des)
     ranked_resumes=cs.main(resume_folder, keywords, cs.COMPETENCIES)
@@ -74,9 +77,6 @@ if __name__ == '__main__':
 
 
 
-# Example usage
-
-  # Replace with the path to your resume folder
 
 
 

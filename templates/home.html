@@ -1,26 +1,139 @@
 <!doctype html>
-<title>Upload new File</title>
-<body>
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class="flashes">
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-  
-<h1>Upload new File</h1>
-<form action="{{url_for('upload_file')}}" method=post enctype=multipart/form-data>
-  <input type=file name=file>
-  
-  <input type=submit value=Upload>
-</form>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload New File</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
-  <form action="{{url_for('result')}}" method='get'>
-    <th>upload job description</th>
-    <tr><input type='text' name='des'</tr>
-    <input type=submit value=Upload>
-  </form>
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .container:hover {
+      transform: scale(1.02);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 24px;
+    }
+
+    h2 {
+      margin: 20px 0;
+      color: #666;
+      font-size: 20px;
+    }
+
+    .flashes {
+      list-style-type: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .flashes li {
+      background-color: #ffdddd;
+      color: #d8000c;
+      border: 1px solid #d8000c;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    input[type="submit"] {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 300px;
+      font-size: 16px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    .form-group {
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      display: block;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% endwith %}
+
+    
+    <form action="{{url_for('upload_file')}}" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="file">Select file to upload</label>
+        <input type="file" name="file" id="file">
+      </div>
+      <input type="submit" value="Upload">
+    </form>
+
+    <h2>Or</h2>
+
+    <form action="{{url_for('result')}}" method="get">
+      <div class="form-group">
+        <label for="des">Upload Job Description</label>
+        <input type="text" name="des" id="des">
+      </div>
+      <input type="submit" value="Upload">
+    </form>
+  </div>
 </body>
+</html>

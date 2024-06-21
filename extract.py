@@ -149,7 +149,7 @@ def main(resume_folder, keywords, competencies):
         resume_texts.append(text)
 
     scores = rank_resumes(resume_texts, keywords, competencies)
-    ranked_resumes =  ranked_resumes = sorted(zip(os.listdir(resume_folder), scores), key=lambda x: x[1], reverse=True)
+    ranked_resumes =sorted(zip(os.listdir(resume_folder), scores), key=lambda x: x[1], reverse=True)
 
 
     return ranked_resumes
