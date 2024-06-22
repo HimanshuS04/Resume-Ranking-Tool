@@ -55,6 +55,7 @@ def main(resume_paths, job_description):
 
     scores = rank_resumes(resume_texts, preprocess_text(job_description))
     scores = (scores * 100).astype(int)
+    resume_paths= [os.path.basename(file_path) for file_path in resume_paths]
     ranked_resumes = sorted(zip(resume_paths, scores), key=lambda x: x[1], reverse=True)
 
     return ranked_resumes

@@ -100,7 +100,7 @@
             <tbody>
                 {% for resume, score in ranked_resumes %}
                 <tr>
-                    <td class="resume-name">{{ resume.rsplit('.', 1)[0] }}</td>
+                    <td class="resume-name">{{ resume }}</td>
                     <td class="resume-score">{{ score }}</td>
                     <td><a class="download-btn" href="{{ url_for('download_file', name=resume) }}">Download</a></td>
                 </tr>

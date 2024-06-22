@@ -35,26 +35,22 @@ def allowed_file(filename):
 @app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(url_for('home'))
         file = request.files['file']
-        # If the user does not select a file, the browser submits an empty file without a filename.
         if file.filename == '':
             flash('No File Selected')
             return redirect(url_for('home'))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            # Save file locally
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            # Upload file to Azure Blob Storage
             try:
                 blob_client = container_client.get_blob_client(filename)
                 with open(file_path, "rb") as data:
-                    blob_client.upload_blob(data)
-                os.remove(file_path)  # Remove file from local storage after uploading to Azure
+                    blob_client.upload_blob(data, overwrite=True)
+                os.remove(file_path)
                 flash('File Uploaded')
             except Exception as e:
                 flash(f'Failed to upload file to Azure Blob Storage: {e}')
