@@ -12,7 +12,6 @@ nltk.download('punkt')
 
 STOPWORDS = set(stopwords.words('english'))
 
-
 # Function to extract text from PDF
 def extract_text_from_pdf(file_path):
     reader = PdfReader(file_path)
@@ -43,13 +42,12 @@ def rank_resumes(resume_texts, job_description):
     return scores
 
 # Main function to extract and rank resumes
-def main(resume_folder, job_description):
+def main(resume_paths, job_description):
     resume_texts = []
-    for file_name in os.listdir(resume_folder):
-        file_path = os.path.join(resume_folder, file_name)
-        if file_name.endswith('.pdf'):
+    for file_path in resume_paths:
+        if file_path.endswith('.pdf'):
             text = extract_text_from_pdf(file_path)
-        elif file_name.endswith('.docx'):
+        elif file_path.endswith('.docx'):
             text = extract_text_from_docx(file_path)
         else:
             continue
@@ -57,9 +55,6 @@ def main(resume_folder, job_description):
 
     scores = rank_resumes(resume_texts, preprocess_text(job_description))
     scores = (scores * 100).astype(int)
-    ranked_resumes = sorted(zip(os.listdir(resume_folder), scores), key=lambda x: x[1], reverse=True)
-    
+    ranked_resumes = sorted(zip(resume_paths, scores), key=lambda x: x[1], reverse=True)
 
     return ranked_resumes
-
-
