@@ -105,6 +105,7 @@
   </style>
 </head>
 <body>
+  <h1>Resume Ranking Tool</h1>
   <div class="container">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -119,7 +120,7 @@
     
     <form action="{{url_for('upload_file')}}" method="post" enctype="multipart/form-data">
       <div class="form-group">
-        <label for="file">Select file to upload</label>
+        <label for="file">Upload Resume</label>
         <input type="file" name="file" id="file">
       </div>
       <input type="submit" value="Upload">
