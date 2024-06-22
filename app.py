@@ -8,7 +8,7 @@ UPLOAD_FOLDER = 'uploads'  # Temporary folder for local storage
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
 # Azure Blob Storage configuration
-connection_string ="https://dbholder.blob.core.windows.net/"  # Replace with your Azure Storage connection string
+connection_string ="DefaultEndpointsProtocol=https;AccountName=dbholder;AccountKey=YTzkyTfhB90UljYSI+4YJX/WD+4Z8iNo+dFQXbH1a691Mpz2M/al0gQQmVBvpQjqHjltnrnBF7YP+AStwbMo+A==;BlobEndpoint=https://dbholder.blob.core.windows.net/;FileEndpoint=https://dbholder.file.core.windows.net/;TableEndpoint=https://dbholder.table.core.windows.net/;QueueEndpoint=https://dbholder.queue.core.windows.net/"  # Replace with your Azure Storage connection string
 container_name = "resumes"  # Replace with your Azure container name
 
 # Initialize BlobServiceClient
