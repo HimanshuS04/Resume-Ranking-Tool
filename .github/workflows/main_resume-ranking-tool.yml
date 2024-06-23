@@ -67,4 +67,4 @@ jobs:
           app-name: 'Resume-Ranking-Tool'
           slot-name: 'Production'
           env:
-           publish-profile: ${{ secrets.AZURE_STORAGEBLOB_CONNECTIONSTRING }}
+           publishprofile: ${{ secrets.AZURE_STORAGEBLOB_CONNECTIONSTRING }}
