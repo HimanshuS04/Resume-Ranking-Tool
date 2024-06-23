@@ -66,4 +66,4 @@ jobs:
         with:
           app-name: 'Resume-Ranking-Tool'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_072DD60271994C0F909D442969A60A78 }}
+          publish-profile: ${{ secrets.AZURE_STORAGEBLOB_CONNECTIONSTRING }}
