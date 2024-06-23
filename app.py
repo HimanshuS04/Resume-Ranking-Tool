@@ -8,7 +8,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf'}
 
 # Azure Blob Storage configuration
 
-connection_string =os.getenv('PRODUCTION')  # Replace with your Azure Storage connection string
+connection_string =os.getenv('AZUREAPPSERVICE_PUBLISHPROFILE_E2E383B7CFE44DBCAD16C4747B08699E')  # Replace with your Azure Storage connection string
 container_name = "resumes"  # Replace with your Azure container name
 
 # Initialize BlobServiceClient
