@@ -107,15 +107,8 @@
 <body>
   <h1>Resume Ranking Tool</h1>
   <div class="container">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class="flashes">
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-    {% endwith %}
+
+    {% include 'flash.html' %}
 
     
     <form action="{{url_for('upload_file')}}" method="post" enctype="multipart/form-data" >

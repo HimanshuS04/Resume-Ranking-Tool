@@ -51,6 +51,7 @@ def main(resume_paths, job_description):
             text = extract_text_from_docx(file_path)
         else:
             continue
+        
         resume_texts.append(preprocess_text(text))
 
     scores = rank_resumes(resume_texts, preprocess_text(job_description))

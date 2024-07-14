@@ -8,7 +8,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf'}
 
 # Azure Blob Storage configuration
 
-connection_string =os.getenv('AZURE_STORAGEBLOB_CONNECTIONSTRING')  # Replace with your Azure Storage connection string
+connection_string=os.getenv('AZURE_STORAGEBLOB_CONNECTIONSTRING')  # Replace with your Azure Storage connection string
 container_name = "resumes"  # Replace with your Azure container name
 
 # Initialize BlobServiceClient
@@ -25,7 +25,7 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 
 
@@ -38,11 +38,11 @@ def upload_file():
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(url_for('home'))
+            return redirect(url_for('upload_resume'))
         file = request.files['file']
         if file.filename == '':
             flash('No File Selected')
-            return redirect(url_for('home'))
+            return redirect(url_for('upload_resume'))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -55,19 +55,19 @@ def upload_file():
                 flash('File Uploaded')
             except Exception as e:
                 flash(f'Failed to upload file to Azure Blob Storage: {e}')
-            return redirect(url_for('home'))
+            return redirect(url_for('upload_resume'))
         else:
             flash('Invalid file type')
-            return redirect(url_for('home'))
+            return redirect(url_for('upload_resume'))
     return
 
 
-@app.route('/result')
+@app.route('/result', methods=['POST'])
 def result():
-    des = request.args.get('des')
+    des = request.form['des']
     if des == '':
         flash('Invalid Input')
-        return redirect(url_for('home'))
+        return redirect(url_for('job'))
 
     # Create a list to store the local paths of downloaded resumes
     resume_paths = []
@@ -106,6 +106,14 @@ def download_file(name):
     except Exception as e:
         flash(f'Failed to download file from Azure Blob Storage: {e}')
         return redirect(url_for('home'))
+
+@app.route('/job')
+def job():
+    return render_template('job.html')
+
+@app.route('/upload_resume')
+def upload_resume():
+    return render_template('uploadResume.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True)

@@ -64,14 +64,14 @@
 
         .resume-score {
             width: 20%;
-            color: #007bff;
+            color: #212529;
             font-weight: bold;
         }
 
         .download-btn {
             text-decoration: none;
-            color: #007bff;
-            border: 1px solid #007bff;
+            color: #212529;
+            border: 1px solid #212529;
             padding: 5px 15px;
             border-radius: 4px;
             transition: background-color 0.3s, color 0.3s;
@@ -81,8 +81,8 @@
         }
 
         .download-btn:hover {
-            background-color: #007bff;
-            color: #fff;
+            background-color: #212529;
+            color: white;
         }
     </style>
 </head>
@@ -99,13 +99,16 @@
             </thead>
             <tbody>
                 {% for resume, score in ranked_resumes %}
+
+                {% if score > 25 %}
                 <tr>
                     <td class="resume-name">{{ resume.rsplit('.',1)[0] }}</td>
                     <td class="resume-score">{{ score }}</td>
                     <td><a class="download-btn" href="{{ url_for('download_file', name=resume) }}">Download</a></td>
                 </tr>
+               {% endif %}
                 {% endfor %}
-               <tr> <td><a class="download-btn" href="{{ url_for('home') }}">Back</a>
+               <tr> <td><a class="download-btn" href="{{ url_for('job') }}">Back</a>
             </tbody>
             
         </table>
