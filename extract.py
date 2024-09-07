@@ -32,31 +32,37 @@ def preprocess_text(text):
     tokens = [word.lower() for word in tokens if word.isalpha() and word.lower() not in STOPWORDS]
     return ' '.join(tokens)
 
-# Function to rank resumes based on TF-IDF scores
-def rank_resumes(resume_texts, job_description):
-    vectorizer = TfidfVectorizer(stop_words='english')
-    resume_tfidf = vectorizer.fit_transform(resume_texts)
-    job_description_tfidf = vectorizer.transform([job_description])
 
-    scores = np.dot(resume_tfidf, job_description_tfidf.T).toarray().flatten()
-    return scores
 
 # Main function to extract and rank resumes
-def main(resume_paths, job_description):
-    resume_texts = []
-    for file_path in resume_paths:
-        if file_path.endswith('.pdf'):
-            text = extract_text_from_pdf(file_path)
-        elif file_path.endswith('.docx'):
-            text = extract_text_from_docx(file_path)
-        else:
-            continue
-        
-        resume_texts.append(preprocess_text(text))
 
-    scores = rank_resumes(resume_texts, preprocess_text(job_description))
-    scores = (scores * 100).astype(int)
-    resume_paths= [os.path.basename(file_path) for file_path in resume_paths]
-    ranked_resumes = sorted(zip(resume_paths, scores), key=lambda x: x[1], reverse=True)
 
-    return ranked_resumes
+
+
+
+def rank_single_resume(resume_path, job_description):
+    # Extract text from the resume based on file type
+    if resume_path.endswith('.pdf'):
+        text = extract_text_from_pdf(resume_path)
+    elif resume_path.endswith('.docx'):
+        text = extract_text_from_docx(resume_path)
+    else:
+        raise ValueError("Unsupported file type. Please provide a .pdf or .docx file.")
+
+    # Preprocess the extracted text and job description
+    processed_resume_text = [preprocess_text(text)]
+    processed_job_description = [preprocess_text(job_description)]
+
+    # Create TF-IDF vectors
+    vectorizer = TfidfVectorizer(stop_words='english')
+    # Fit the vectorizer on both resume and job description
+    resume_tfidf = vectorizer.fit_transform(processed_resume_text)
+    job_description_tfidf = vectorizer.transform(processed_job_description)
+
+    # Compute the similarity score
+    score = np.dot(resume_tfidf, job_description_tfidf.T).toarray().flatten()[0]
+
+    # Convert the score to a percentage
+    score_percentage = int(score * 100)
+
+    return score_percentage

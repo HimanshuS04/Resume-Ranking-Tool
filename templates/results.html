@@ -48,6 +48,7 @@
             text-align: left;
             padding: 12px;
             border-bottom: 1px solid #ddd;
+            vertical-align: middle; /* Ensures vertical centering */
         }
 
         th {
@@ -59,13 +60,23 @@
         }
 
         .resume-name {
-            width: 50%;
+            width: 30%;
+        }
+
+        .resume-email {
+            width: 30%;
         }
 
         .resume-score {
             width: 20%;
             color: #212529;
             font-weight: bold;
+        }
+
+        .action-btn {
+            text-align: center;
+            vertical-align: middle;
+            width: 100px;
         }
 
         .download-btn {
@@ -77,7 +88,7 @@
             transition: background-color 0.3s, color 0.3s;
             text-align: center;
             display: inline-block;
-            width: 100px;
+            width: 80px; /* Adjusts button width for alignment */
         }
 
         .download-btn:hover {
@@ -93,24 +104,27 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Email</th>
                     <th>Score</th>
-                    <th>Download</th>
+                    <th colspan="2">Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for resume, score in ranked_resumes %}
-
-                {% if score > 25 %}
+                {% for result in results %}
+                {% set job_id = result[5] %}
+                {% set application_id = result[3] %}
                 <tr>
-                    <td class="resume-name">{{ resume.rsplit('.',1)[0] }}</td>
-                    <td class="resume-score">{{ score }}</td>
-                    <td><a class="download-btn" href="{{ url_for('download_file', name=resume) }}">Download</a></td>
+                    <td class="resume-email">{{ result.name }}</td>
+                    <td class="resume-email">{{ result.email }}</td>
+                    <td class="resume-score">{{ result.score }}</td>
+                    <td class="action-btn"><a class="download-btn" href="{{ url_for('accepted', application_id=application_id, job_id=job_id) }}">Accept</a></td>
+                    <td class="action-btn"><a class="download-btn" href="{{ url_for('rejected', application_id=application_id, job_id=job_id) }}">Reject</a></td>
                 </tr>
-               {% endif %}
                 {% endfor %}
-               <tr> <td><a class="download-btn" href="{{ url_for('job') }}">Back</a>
+                <tr>
+                    <td colspan="4" style="text-align: center;"><a class="download-btn" href="{{ url_for('employerPage') }}">Back</a></td>
+                </tr>
             </tbody>
-            
         </table>
     </div>
 </body>
