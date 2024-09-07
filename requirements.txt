@@ -4,4 +4,5 @@ pypdf2
 python-docx
 gunicorn
 scikit-learn
-azure-storage-blob
+psycopg2
+bcrypt
