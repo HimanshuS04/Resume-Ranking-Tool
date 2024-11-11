@@ -14,6 +14,10 @@
   font-size: 100px;
   font-style: normal;
 }
+      body, html {
+          height: 100%;
+          
+      }
 
 
     </style>
@@ -26,11 +30,9 @@
             
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="{{url_for('home')}}" class="nav-link px-2 text-secondary">Home</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+              <li><a href="{{url_for('home')}}" class="nav-link px-2 text-white">Home</a></li>
+              <li><a href="#features" class="nav-link px-2 text-white">Features</a></li>
+              
             </ul>
 
 
@@ -40,21 +42,19 @@
               <div class="dropdown text-end">
 
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{ session.data[0] }} <img src="https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
+                  <img src="https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
 
                 </a>
 
                 <ul class="dropdown-menu text-small" style="">
                   <li><a class="dropdown-item" href="#">New project...</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><hr class="dropdown-divider"></li>
+                  
                   <li><a class="dropdown-item" href="logout">Sign out</a></li>
                 </ul>
               </div>
               {%else%}
               <a href='loginPage'> <button type="button" class="btn btn-outline-light me-2">Login</button></a>
-              <a href='signupPage'> <button type="button" class="btn btn-warning">Sign-up</button></a>
+              <a href='signupPage'> <button type="button" class="btn btn-primary">Sign-up</button></a>
               {%endif%}
 
             </div>
@@ -80,8 +80,38 @@
           </div>
 </section>
 
-<section id="footer">
-   
-</section>
+
+    <div id="features" class="container px-4 py-5" id="hanging-icons">
+      <h2 class="pb-2 border-bottom">Features</h2>
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        
+        
+        <div class="col d-flex align-items-start">
+          <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+            <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"></use></svg>
+          </div>
+          <div>
+            <h3 class="fs-2 text-body-emphasis">Automated Resume Screening</h3>
+            <p>Resumes provided by the applicants will be judged based on the job requirements mentioned in the job description provieded by the Employer</p>
+            <a href="signupPage" class="btn btn-primary">
+              Get Started
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+        <section id="footer">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center px-3 py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    
+                    <span class=" mb-3 mb-md-0 text-body-secondary">© 2024 Resume Ranker</span>
+                </div>
+            </footer>
+        </section>
+    
+
+    
   </body>
 </html>

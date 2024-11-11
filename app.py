@@ -1,8 +1,9 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, render_template, session
 from werkzeug.utils import secure_filename
-import extract 
+import nlp
 import db 
+import datetime
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
@@ -21,7 +22,10 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 @app.route('/')
 def home():
     try:
-        return render_template('index.html', data=session['data'])
+        if session['data'][1]=="Employee":
+            return redirect(url_for('employeePage'))
+        else:
+            return redirect(url_for('employerPage'))
     except Exception as e:
         return render_template('index.html',data=None)
 
@@ -45,15 +49,28 @@ def signup():
     companyName = request.form['companyName']
     if type == 'Employer':
         try:
-            db.sign_up(username,email,password,type,companyName)
+            signup=db.sign_up(username,email,password,type,companyName)
+            if signup==1:
+                flash('Email already in use')
+                return redirect(url_for('signupPage'))
             flash('Signup Successful')
+            session['data']=db.sign_in(email,password)
+            if session['data']:
+                    return redirect(url_for('employerPage'))
             return redirect(url_for('signupPage'))
         except Exception as e:
             flash('Failed to signup')
+            return redirect(url_for('signupPage'))
     else:
         try:
-            db.sign_up(username,email,password,type)
+            signup=db.sign_up(username,email,password,type)
+            if(signup==1):
+                flash('Email already in use')
+                return redirect(url_for('signupPage'))
             flash('Signup Successful')
+            session['data']=db.sign_in(email,password)
+            if session['data']:
+                return redirect(url_for('employeePage'))
             return redirect(url_for('signupPage'))
         except Exception as e:
             flash('Failed to signup')
@@ -72,7 +89,6 @@ def login():
     password = request.form['pass']
     try:
         session['data']=db.sign_in(email,password)
-        print(session['data'])
         if session['data']:
             if session['data'][1]=='Employer':
                 return redirect(url_for('employerPage'))
@@ -89,24 +105,37 @@ def login():
 @app.route('/employeePage')
 def employeePage():
     try:
-        status = db.get_application_status(session['data'][0])
+        
         jobs=db.jobs()
-        print(jobs)
-        return render_template('employeePage.html',jobs=jobs,status=status)
+        return render_template('employeePage.html',jobs=jobs)
     except Exception as e:
         print(e)
         return redirect(url_for('loginPage'))
         
-
+@app.route('/jobStatus')
+def jobStatus():
+    
+        status=db.get_application_status(session['data'][0])
+        return render_template('jobStatus.html',status=status)
+    
 
 @app.route('/employerPage')
 def employerPage():
      try:
-        jobs=db.get_jobs_by_employer(session['data'][0])
-        return render_template('employerPage.html', jobs=jobs)
+        
+        return render_template('employerPage.html')
      except Exception as e:
          print(e)
          return redirect(url_for('loginPage'))
+
+@app.route('/postedJobs')
+def postedJobs():
+    try:
+        jobs=db.get_jobs_by_employer(session['data'][0])
+        return render_template('postedJobs.html', jobs=jobs)
+    except Exception as e:
+         print(e)
+         return render_template('employerPage.html')
 
 @app.route('/addjob', methods=['POST'])
 def addjob():
@@ -140,7 +169,7 @@ def apply(job_id):
             file.save(file_path)
             try:
                 description=db.get_job_description(job_id)
-                score=extract.rank_single_resume(file_path,description)
+                score=nlp.score_resume(file_path,description)
                 os.remove(file_path)
                 db.apply(job_id, session['data'][0], score)
                 flash('File Uploaded')
@@ -161,8 +190,6 @@ def results(job_id):
     if results==[]:
         flash('Job not found')
         return redirect(url_for('employerPage'))
-
-    # List blobs in the container and download them to the local directory
     try:
         return render_template('results.html', results=results)
     except Exception as e:
