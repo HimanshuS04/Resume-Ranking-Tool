@@ -15,6 +15,7 @@ import torch
 # Ensure you have the required nltk data
 nltk.download('stopwords')
 nltk.download('punkt')
+nltk.download('punkt_tab')
 nltk.download('wordnet')
 
 # Initialize Lemmatizer and BERT tokenizer and model
