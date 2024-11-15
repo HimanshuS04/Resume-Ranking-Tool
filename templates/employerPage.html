@@ -27,6 +27,21 @@
         border-radius: 4px;
         text-align: center;
       }
+
+
+      #footer {
+        
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        z-index: 10;
+        height: 90px; /* Set the footer height */
+    }
+    
+    .content {
+        padding-bottom: 40px; /* Same as the footer height */
+    }
     </style>
   </head>
   <body>
@@ -69,8 +84,9 @@
 
 
    <section>
-     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-       
+
+     <div class="content container col-xl-10 col-xxl-8 px-4 py-5">
+       {%include 'flash.html'%}
          <div class="col-md-10 mx-auto col-lg-5">
            <center><h1 class="dm-serif-display-regular">Post a Job</h1></center>
            <form action="{{url_for('addjob')}}" method="post" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
@@ -106,15 +122,18 @@
      </div>
    </section>
 
-    <section id="footer" >
-        <div class="container">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-              <div class="col-md-4 d-flex align-items-center">
-                <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Resume Ranker</span>
-              </div>
-            </footer>
+   <section id="footer" >
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+              <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Resume Ranker</span>
           </div>
-    </section>
+        </footer>
+      </div>
+</section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
 </html>

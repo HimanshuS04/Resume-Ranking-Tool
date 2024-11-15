@@ -1,6 +1,7 @@
 import os
 import docx
 import nltk
+from PyPDF2 import PdfReader
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import string
@@ -20,6 +21,13 @@ nltk.download('wordnet')
 lemmatizer = WordNetLemmatizer()
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 model = BertModel.from_pretrained('bert-base-uncased')
+
+def extract_text_from_pdf(file_path):
+    reader = PdfReader(file_path)
+    text = ''
+    for page in reader.pages:
+        text += page.extract_text()
+    return text
 
 # Function to extract text from DOCX
 def extract_text_from_docx(file_path):

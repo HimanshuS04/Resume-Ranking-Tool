@@ -6,3 +6,7 @@ gunicorn
 scikit-learn
 psycopg2
 bcrypt
+docx
+numpy
+transformers
+torch

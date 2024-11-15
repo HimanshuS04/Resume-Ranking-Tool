@@ -101,9 +101,13 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #f8f9fa; /* Optional: matches Bootstrap's default footer color */
+            background-color: #f8f9fa;
             z-index: 10;
-            margin-top: 2px;
+            height: 90px; /* Set the footer height */
+        }
+        
+        .content {
+            padding-bottom: 40px; /* Same as the footer height */
         }
     </style>
 </head>
@@ -149,13 +153,14 @@
 
 
     
-    <div class="job-status-table-container">
+    <div class="content job-status-table-container">
         {% if status: %}
         <table class="job-status-table">
             <thead>
                 <tr>
                     <th>Company</th>
-                    <th>Job</th>
+                    <th>Job Title</th>
+                    <th>Score</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -163,7 +168,8 @@
                 {% for job in status %}
                 <tr>
                     <td data-label="Company">{{job.companyname}}</td>
-                    <td data-label="Job">{{job.title}}</td>
+                    <td data-label="Job Title">{{job.title}}</td>
+                    <td data-label="Score">{{job.score}}</td>
                     <td data-label="Status">
                         <span class="status-cell status-{{job.status.lower()}}">
                             {{job.status}}
