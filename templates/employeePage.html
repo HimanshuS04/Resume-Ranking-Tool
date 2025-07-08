@@ -27,23 +27,124 @@
         border-radius: 4px;
         text-align: center;
       }
+
+
+
+      .job-application-card {
+          font-family: Arial, sans-serif;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          padding: 24px;
+          max-width: 500px;
+          width: 100%;
+          margin: 20px auto;
+      }
+      .job-application-card h2 {
+          margin-top: 0;
+          margin-bottom: 16px;
+          font-size: 24px;
+          color: #333;
+      }
+      .info-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 12px;
+      }
+      .info-item svg {
+          width: 20px;
+          height: 20px;
+          margin-right: 8px;
+          fill: #666;
+      }
+      .info-item span {
+          color: #444;
+      }
+      .badge {
+          display: inline-block;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 14px;
+          font-weight: bold;
+      }
+      .badge-success {
+          background-color: #e6f4ea;
+          color: #1e7e34;
+      }
+      .badge-danger {
+          background-color: #fbe9e7;
+          color: #d32f2f;
+      }
+      .divider {
+          border-top: 1px solid #e0e0e0;
+          margin: 20px 0;
+      }
+      .job-application-form {
+          margin-top: 20px;
+      }
+      .form-group {
+          margin-bottom: 15px;
+      }
+      .form-control {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 16px;
+          box-sizing: border-box;
+      }
+      .btn {
+          background-color: #007bff;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s;
+      }
+      .btn:hover {
+          background-color: #0056b3;
+      }
+      body, html {
+          min-height: 100vh;
+
+      }
+      #footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        z-index: 10;
+        height: 80px; /* Set the footer height */
+    }
+    
+    .content {
+        padding-bottom: 60px; /* Same as the footer height */
+    }
     </style>
   </head>
   <body>
+
+
+
+   
+
+
+
+
+    
     <section>
       <header class="p-3 text-bg-dark">
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
+           
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="{{url_for('employeePage')}}" class="nav-link px-2 text-secondary">Home</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+              <li><a href="{{url_for('employeePage')}}" class="nav-link px-2 text-white">Home</a></li>
+              <li><a href="jobStatus" class="nav-link px-2 text-white">Activity</a></li>
+             
             </ul>
 
 
@@ -53,15 +154,12 @@
               <div class="dropdown text-end">
 
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{ session.data[0] }} <img src="https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
+                   <img src="https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
 
                 </a>
 
                 <ul class="dropdown-menu text-small" style="">
-                  <li><a class="dropdown-item" href="#">New project...</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><hr class="dropdown-divider"></li>
+                 
                   <li><a class="dropdown-item" href="logout">Sign out</a></li>
                 </ul>
               </div>
@@ -77,121 +175,75 @@
     </section>
 
 
-   <section>
+   <section class="content">
+    {%include 'flash.html'%}
+    
+     {% if jobs %}
+       {% for job in jobs %}
+
+        <div class="job-application-card">
+            <h2>{{job.name}}</h2>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m4 0v-8a1 1 0 011-1h2a1 1 0 011 1v8m-4 0h4"></path></svg>
+                <span>{{job.companyname}}</span>
+            </div>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                <span>{{job.title}}</span>
+            </div>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>INR {{job.salary}}</span>
+            </div>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span>{{job.location}}</span>
+            </div>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span><span class="badge badge-{{job.status.lower()}}">{{job.status}}</span></span>
+            </div>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span>Closing: {{(job.dateclosing)}}</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <form class="job-application-form" action="{{url_for('apply', job_id=job.jobid)}}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Upload Resume:</label>
+                    <input type="file" class="form-control" id="file" name="file" accept=".pdf,.doc,.docx" required>
+                </div>
+                <button type="submit" class="btn">Apply Now</button>
+            </form>
+        </div>
+
+
+      {% endfor %}
+      {% endif %}
+
+
     
 
-
      
-
-     
-     <div class="container col-xl-10 col-xxl-8 ">
-       <div class="row justify-content-center g-lg-5 ">
-         <div class="col-lg-7 text-center text-lg-start">
-
-
-           
-
-           
-           {% include 'flash.html' %}
-           {% if status!= None: %}
-           <div class="container">
-              <table class="table">
-                <tr>
-                  <th>Company</th>
-                  <th>Job</th>
-                  
-                  <th>Status</th>
-                </tr>
-                 
-                 {%for job in status %}
-                {% if job.status=="Accepted" %}
-                <tr class="table-success">
-                  <td>{{job.companyname}}</td>
-                  <td>{{job.title}}</td>
-                  <td>{{job.status}}</td>
-                </tr>
-                {% elif job.status=='Pending' %}
-                <tr class="table-primary">
-                  <td>{{job.companyname}}</td>
-                  <td>{{job.title}}</td>
-                  <td>{{job.status}}</td>
-                </tr>
-                {%else%}
-                <tr class="table-danger">
-                  <td>{{job.companyname}}</td>
-                  <td>{{job.title}}</td>
-                  <td>{{job.status}}</td>
-                 </tr>
-                {%endif%}
-                {%endfor%}
-                {%endif%}
-
-              </table>
-            </div>
-           {% if jobs %}
-            {% for job in jobs %}
-           
-               
-           <div class="card text-center m-3">
-             <div class="card-header">
-              
-             </div>
-             <div class="card-body">
-                <h5 class="card-title">Company Name : {{job.companyname}}</h5>
-               <h5 class="card-title">Job Title : {{job.title}}</h5>
-                <h5 class="card-title">Salary : {{job.salary}}</h5>
-                <h5 class="card-title">Location : {{job.location}}</h5>
-               <h5 class="card-title">Job Status : {{job.status}}</h5>
-                <h5 class="card-title">Date Closing : {{job.dateclosing}}</h5>
-                
-               
-               <p class="card-text">{{job.description}}</p>
-
-             </div>
-            
-             <div class="col-md-10 mx-auto ">
-
-                <form action="{{url_for('apply',job_id=job.jobid)}}" method="post" class="p-2 p-md-2  rounded-3 " enctype="multipart/form-data">
-                  
-
-                  <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="file" name=file>
-
-                  </div>
-
-                  <button class="w-100 btn btn-lg btn-dark" type="submit">Upload</button>
-                  
-
-                </form>
-              </div>
-           </div>
-           
-           {% endfor %}
-           {% endif %}
-         </div>
-        
-       </div>
-     </div>
    </section>
 
-    <section id="footer" >
-        <div class="container">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-              <div class="col-md-4 d-flex align-items-center">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-                  <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-                </a>
-                <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Resume Ranker</span>
-              </div>
 
-              <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-              </ul>
-            </footer>
+
+   <section id="footer" >
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+              <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Resume Ranker</span>
           </div>
-    </section>
+        </footer>
+      </div>
+</section>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
 </html>

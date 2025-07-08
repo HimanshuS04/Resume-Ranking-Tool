@@ -32,7 +32,7 @@ def sign_up(name, email, plain_password, user_type, company_name=None):
 
       if user_exists:
           print("Error: User with this email already exists.")
-          return False
+          return 1
 
       # Insert new user into the Users table
       insert_query = """
@@ -162,10 +162,11 @@ def jobs():
             jobs.dateposted, 
             jobs.dateclosing, 
             jobs.status,
-            users.companyname
+            users.companyname,
+            users.name
         FROM jobs
         JOIN users ON jobs.employerid = users.userid
-        ORDER BY jobs.jobid DESC;
+        ORDER BY jobs.dateposted DESC;
     ''')
 
     jobs = cur.fetchall()

@@ -5,12 +5,15 @@ import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
+from nltk.tokenize import word_tokenize
+import string
+from itertools import chain
 
 # Ensure you have the required nltk data
 nltk.download('stopwords')
 nltk.download('punkt')
+nltk.download('punkt_tab')
 
-STOPWORDS = set(stopwords.words('english'))
 
 # Function to extract text from PDF
 def extract_text_from_pdf(file_path):
@@ -28,19 +31,21 @@ def extract_text_from_docx(file_path):
 
 # Function to preprocess text
 def preprocess_text(text):
-    tokens = nltk.word_tokenize(text)
-    tokens = [word.lower() for word in tokens if word.isalpha() and word.lower() not in STOPWORDS]
-    return ' '.join(tokens)
+  x=[]
+  tokens=word_tokenize(text)
+  tok=[w.lower() for w in tokens]
+  table=str.maketrans('','',string.punctuation)
+  strpp=[w.translate(table) for w in tok]
+  words=[word for word in strpp if word.isalpha()]
+  stop_words=set(stopwords.words('english'))
+  words=[w for w in words if not w in stop_words]
+  x.append(words)
+  res=" ".join(chain.from_iterable(x))
+  return res
 
 
 
-# Main function to extract and rank resumes
-
-
-
-
-
-def rank_single_resume(resume_path, job_description):
+def score_resume(resume_path, job_description):
     # Extract text from the resume based on file type
     if resume_path.endswith('.pdf'):
         text = extract_text_from_pdf(resume_path)
@@ -59,10 +64,17 @@ def rank_single_resume(resume_path, job_description):
     resume_tfidf = vectorizer.fit_transform(processed_resume_text)
     job_description_tfidf = vectorizer.transform(processed_job_description)
 
-    # Compute the similarity score
-    score = np.dot(resume_tfidf, job_description_tfidf.T).toarray().flatten()[0]
+    # Compute the dot product
+    dot_product = np.dot(resume_tfidf, job_description_tfidf.T).toarray().flatten()[0]
 
-    # Convert the score to a percentage
-    score_percentage = int(score * 100)
+    # Compute the norms (magnitudes) of the vectors
+    resume_norm = np.linalg.norm(resume_tfidf.toarray())
+    job_description_norm = np.linalg.norm(job_description_tfidf.toarray())
+
+    # Calculate cosine similarity
+    cosine_similarity = dot_product / (resume_norm * job_description_norm)
+
+    # Convert the similarity to a percentage
+    score_percentage = int(cosine_similarity * 100)
 
     return score_percentage
